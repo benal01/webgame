@@ -4,14 +4,18 @@ public class User {
     private int id;
     private String name;
     private String password;
+    private String sessionId;
+    private boolean newUser;
 
     public User() {
     }
 
-    public User(int id, String name, String password) {
+    public User(int id, String name, String password, String sessionId, boolean newUser) {
         this.id = id;
         this.name = name;
         this.password = password;
+        this.sessionId = sessionId;
+        this.newUser = newUser;
     }
 
     public int getId() {
@@ -28,5 +32,11 @@ public class User {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getSessionId() {
+        return sessionId;
+    }
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

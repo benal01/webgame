@@ -12,15 +12,6 @@ public class WebSocketSessionService {
     
     private final Set<WebSocketSession> webSocketSessions = new HashSet<>();
     
-    public Set<WebSocketSession> getWebSocketSessionsExcept(WebSocketSession webSocketSession) {
-        var nonMatchingSessions = this.webSocketSessions.
-            stream().
-            filter(session -> !session.getId().equalsIgnoreCase(webSocketSession.getId())).
-            collect(Collectors.toSet());
-        return nonMatchingSessions;
-    }
-
-
     public void addWebSocketSession(WebSocketSession webSocketSession) {
         this.webSocketSessions.add(webSocketSession);
         System.out.println("Added session: " + webSocketSession.getId());

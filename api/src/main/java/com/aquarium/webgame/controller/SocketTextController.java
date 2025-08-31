@@ -8,19 +8,25 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.aquarium.webgame.model.User;
+import com.aquarium.webgame.service.LoginService;
 import com.aquarium.webgame.service.WebSocketSessionService;
 
 @Component
 public class SocketTextController extends TextWebSocketHandler {
     private WebSocketSessionService webSocketSessionService;
+    private LoginService loginService;
 
     public SocketTextController(WebSocketSessionService webSocketSessionService) {
         this.webSocketSessionService = webSocketSessionService;
+        this.loginService = new LoginService();
     }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         webSocketSessionService.addWebSocketSession(session);
+        session.sendMessage(new TextMessage("Connected to server as session " + session.getId()));
+        session.sendMessage(new TextMessage("Enter username to begin"));
     }
 
     @Override
@@ -33,6 +39,16 @@ public class SocketTextController extends TextWebSocketHandler {
         String payload = message.getPayload();
         System.out.println("Received message: " + payload + " from session: " + session.getId());
         //echo message back to sender
-        session.sendMessage(new TextMessage("message = "+payload));
+        if (loginService.userLoggedIn(session.getId())) {
+            User user = loginService.getUserBySessionId(session.getId());
+            session.sendMessage(new TextMessage(user.getName() + ": " + payload));
+        } else {
+            //log user in if they sent username
+            if (loginService.login(session, payload)) {
+                session.sendMessage(new TextMessage("Welcome back, " + payload + "!"));
+            } else {
+                session.sendMessage(new TextMessage("Welcome, " + payload + "! Your account has been created."));
+            }
+        }
     }
 }

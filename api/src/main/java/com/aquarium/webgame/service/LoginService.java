@@ -30,12 +30,24 @@ public class LoginService {
             boolean userExists = userFileDao.userExists(username);
             activeUsers.put(user.getSessionId(), user);
             userFileDao.addUser(user);
+            System.out.println("User " + username + " logged in with session " + session.getId()+". Active users: " + activeUsers.size());
             return userExists;
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }  
+    }
+
+    public boolean logout(WebSocketSession session) {
+        if (activeUsers.containsKey(session.getId())) {
+            User user = activeUsers.remove(session.getId());
+            System.out.println("User " + user.getName() + " logged out from session " + session.getId() + ". Active users: " + activeUsers.size());
+            return true;
+        } else {
+            System.out.println("No active user with session " + session.getId() + " found to log out.");
+            return false;
+        }
     }
 
     public User[] getUsers() {

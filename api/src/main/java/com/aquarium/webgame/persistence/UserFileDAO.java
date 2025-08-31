@@ -10,10 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class UserFileDAO implements UserDAO {
 
-    private final Map<Integer, User> users;
+    private final Map<String, User> users; //name, User
     private final String filePath;
     private final ObjectMapper objectMapper;
-    private int nextId = 0;
 
     public UserFileDAO(String filePath, ObjectMapper objectMapper) throws IOException {
         this.users = new HashMap<>();
@@ -22,27 +21,22 @@ public class UserFileDAO implements UserDAO {
     }
     private void loadFromFile() throws IOException {
         users.clear();
-        nextId = 0;
         User[] userArray = objectMapper.readValue(new File(filePath), User[].class);
         for (User user : userArray) {
-            users.put(user.getId(), user);
-            if (user.getId() > nextId) {
-                nextId = user.getId();
-            }
+            users.put(user.getName(), user);
         }
-        nextId++; // Set nextId to one more than the current max ID
     }
 
     private void saveToFile() throws IOException{
-        User[] userArray = users.values().toArray(User[]::new);
-
-        objectMapper.writeValue(new File(filePath), userArray);
+        //remove the session IDs before saving
+        
+        objectMapper.writeValue(new File(filePath), users.values());
     }
 
     public User addUser(User user) throws IOException {
         synchronized (users) {
             if (users.get(user) == null) {
-                users.put(user.getId(), user);
+                users.put(user.getName(), user);
             saveToFile();
             }
         }

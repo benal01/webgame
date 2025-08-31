@@ -1,11 +1,14 @@
 package com.aquarium.webgame.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
     private int id;
     private String name;
     private String password;
-    private String sessionId;
     private boolean newUser;
+    @JsonIgnore
+    private String sessionId;
 
     public User() {
     }

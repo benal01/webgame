@@ -7,11 +7,14 @@ import java.util.Map;
 
 import com.aquarium.webgame.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class UserFileDAO implements UserDAO {
 
     private final Map<String, User> users; //name, User
     private final String filePath;
+    private final String activeFilePath = "api/data/activeUsers.json";
     private final ObjectMapper objectMapper;
 
     public UserFileDAO(String filePath, ObjectMapper objectMapper) throws IOException {
@@ -44,6 +47,22 @@ public class UserFileDAO implements UserDAO {
         return user;
     }
 
+    public User addActiveUser(User user) throws IOException {
+        synchronized (users) {
+            objectMapper.writeValue(new File(activeFilePath), user);
+        }
+
+        return user;
+    }
+
+    public void removeActiveUser(User user) throws IOException {
+        synchronized (users) {
+            JsonNode node = objectMapper.readTree(new File(activeFilePath));
+            ArrayNode arrayNode = (ArrayNode) node;
+            arrayNode.removeIf(n -> n.get("name").asText().equals(user.getName()));
+            objectMapper.writeValue(new File(activeFilePath), arrayNode);
+        }
+    }
     public User getUserByName(String name) {
         return null;
     }

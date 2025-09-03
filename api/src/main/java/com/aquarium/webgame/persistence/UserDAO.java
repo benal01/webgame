@@ -16,4 +16,8 @@ public interface UserDAO {
     boolean deleteUser(int id) throws IOException;
 
     boolean userExists(String name) throws IOException;
+
+    User addActiveUser(User user) throws IOException;
+
+    void removeActiveUser(User user) throws IOException;
 }

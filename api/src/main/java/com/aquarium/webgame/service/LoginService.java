@@ -9,6 +9,7 @@ import com.aquarium.webgame.model.User;
 import com.aquarium.webgame.persistence.UserDAO;
 import com.aquarium.webgame.persistence.UserFileDAO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 
 public class LoginService {
 
@@ -24,12 +25,13 @@ public class LoginService {
         }
     }
 
-    public boolean login(WebSocketSession session, String username) {
+    public boolean login(WebSocketSession session, String username)  throws IOException {
         User user = new User(0, username, "", session.getId(), true);
         try {
             boolean userExists = userFileDao.userExists(username);
             activeUsers.put(user.getSessionId(), user);
             userFileDao.addUser(user);
+            userFileDao.addActiveUser(user);
             System.out.println("User " + username + " logged in with session " + session.getId()+". Active users: " + activeUsers.size());
             return userExists;
 
@@ -39,9 +41,10 @@ public class LoginService {
         }  
     }
 
-    public boolean logout(WebSocketSession session) {
+    public boolean logout(WebSocketSession session) throws IOException {
         if (activeUsers.containsKey(session.getId())) {
             User user = activeUsers.remove(session.getId());
+            userFileDao.removeActiveUser(user);
             System.out.println("User " + user.getName() + " logged out from session " + session.getId() + ". Active users: " + activeUsers.size());
             return true;
         } else {

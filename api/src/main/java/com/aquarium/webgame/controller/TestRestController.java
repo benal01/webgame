@@ -12,4 +12,9 @@ public class TestRestController {
     public String test() {
         return "Test endpoint reached!";
     }
+
+    // @RequestMapping("/start-game")
+    // public String startGame() {
+
+    // }
 }

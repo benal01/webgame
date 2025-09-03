@@ -8,16 +8,10 @@ output = function(message, type) {
     textArea.innerHTML += '<div class="output '+type+'">' + message + ' <span class="timestamp">' + new Date().toLocaleTimeString() + '</span><br> </div>';
 }
 
-
-
-output("One", "message");
-output("Two", "message");
-output("Three", "message");
-output("Four", "message");
-
-
-output("System message", "system");
-
+log = function(message) {
+    console.log(message);
+    output(message, "system");
+}
 
 document.getElementById('loginBtn').onclick = function() {
     const username = document.getElementById('username').value;
@@ -29,23 +23,25 @@ document.getElementById('loginBtn').onclick = function() {
 
 document.getElementById('sendBtn').onclick = function() {
     const message = document.getElementById('messageInput').value;
-    console.log('Sending to server:', message);
+    log('Sending to server:', message);
     socket.send(message);
 }
 
+
+
 // Websocket connection
 socket.onopen = function(event) {
-    console.log('WebSocket connection opened');
+    log('WebSocket connection opened');
 };
 
 socket.onmessage = function(event) {
-    console.log('Received from server:', event.data);
+    output(event.data, "message");
 };
 
 socket.onclose = function(event) {
-    console.log('WebSocket connection closed');
+    log('WebSocket connection closed');
 };
 
 socket.onerror = function(error) {
-    console.error('WebSocket error:', error);
+    log('WebSocket error:', error);
 };

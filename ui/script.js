@@ -6,6 +6,7 @@ const textArea = document.getElementById('textArea');
 output = function(message, type) {
     messages[messages.length] = [message, type];
     textArea.innerHTML += '<div class="output '+type+'">' + message + ' <span class="timestamp">' + new Date().toLocaleTimeString() + '</span><br> </div>';
+    textArea.scrollTo({top: textArea.scrollHeight, behavior:'smooth'});
 }
 
 log = function(message) {

@@ -1,0 +1,103 @@
+:root {
+    --background-color: #bdc3c7;
+    --foreground-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --highlight-color: rgba(255, 255, 255, 1);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+
+    --message-color: black;
+    --system-color: gray;
+
+    --text-area-height: 200px;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --code-font: "Source Code Pro", monospace;
+    --time-font: "Verdana", sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 5% 7%;
+    font-family: var(--font-family);
+}
+
+#login {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: var(--foreground-color);
+    box-shadow: var(--shadow-color) 2px 2px 2px;
+    border: black 1px solid;
+    outline: rgba(0, 0, 0, 0.45) 1000px solid;
+    border-radius: 5px;
+}
+
+section {
+    background-color: var(--foreground-color);
+    box-shadow: var(--shadow-color) 2px 2px 2px;
+    border: black 1px solid;
+    border-radius: 5px;
+    padding: 10px 20px;
+
+    #inputArea {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        margin: 5px 0px;
+        width: 100%;
+      
+        input {
+            font-family: var(--code-font);
+            flex: 1;
+            padding: 5px;
+            font-size: 16px;
+            width: 60%;
+        }
+        button {
+            font-family: var(--font-family);
+        }
+    }
+}
+#chat {
+    padding: 10px 20px;
+}
+
+#textArea {
+    height: var(--text-area-height);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.output {
+    padding: 0px 0px 0px 5px;
+    .timestamp {
+        font-weight: 500;
+        font-family: var(--code-font);
+        display: none;
+        float: right;
+        margin-right: 10px;
+        color: var(--system-color);
+    }
+}
+
+.output:hover {
+    background-color: var(--highlight-color);
+    outline: var(--background-color) 3px solid;
+    .timestamp {
+        display: inline;
+    }
+}
+
+.message {
+    color: var(--message-color);
+    font-family: var(--code-font);
+    float: left;
+    width: 100%;
+}
+
+.system {
+    color: var(--system-color);
+    float: left;
+    width: 100%;
+}

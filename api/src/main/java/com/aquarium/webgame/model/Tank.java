@@ -11,7 +11,7 @@ public class Tank {
     private LocalDateTime creationTime;
     private int id;
 
-    private Set<TankElement> tankElements = new HashSet<>();
+    final private Set<TankElement> tankElements = new HashSet<>();
 
 
     public Tank() {
@@ -20,7 +20,18 @@ public class Tank {
     public Tank(WebSocketSession ownerSession) {
         this.ownerSession = ownerSession;
         this.creationTime = LocalDateTime.now();
+        System.out.println("init tank");
     }
+
+    public void heartBeat() {
+        // for (TankElement element : tankElements) {
+        //     if (element instanceof TankEntity) {
+        //         ((TankEntity) element).heartBeat();
+        //     }
+        // }
+        
+    }
+
 
     public void addTankElement(TankElement tankElement) {
         this.tankElements.add(tankElement);

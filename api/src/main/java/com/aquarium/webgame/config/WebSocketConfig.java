@@ -7,15 +7,13 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 import com.aquarium.webgame.controller.SocketTextController;
-import com.aquarium.webgame.service.WebSocketSessionService;
-
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
     @Autowired
-    WebSocketSessionService webSocketSessionController;
+    private SocketTextController socketTextController;
 
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new SocketTextController(this.webSocketSessionController), "/user").setAllowedOrigins("*");
+        registry.addHandler(socketTextController, "/user").setAllowedOrigins("*");
     }
 }

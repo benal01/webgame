@@ -35,4 +35,12 @@ public class TankElement {
         this.name = name;
     }
 
+    public Point2D.Double getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point2D.Double position) {
+        this.position = position;
+    }
+
 }

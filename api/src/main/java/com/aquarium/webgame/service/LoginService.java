@@ -1,16 +1,18 @@
 package com.aquarium.webgame.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.aquarium.webgame.model.User;
 import com.aquarium.webgame.persistence.UserDAO;
 import com.aquarium.webgame.persistence.UserFileDAO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 
+@Service
 public class LoginService {
 
     private UserDAO userFileDao; 

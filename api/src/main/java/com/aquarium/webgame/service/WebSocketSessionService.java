@@ -11,9 +11,9 @@ import org.springframework.web.socket.WebSocketSession;
 public class WebSocketSessionService {
     
     private final Set<WebSocketSession> webSocketSessions = new HashSet<>();
-    
+   
     public void addWebSocketSession(WebSocketSession webSocketSession) {
-        this.webSocketSessions.add(webSocketSession);
+        webSocketSessions.add(webSocketSession);
         System.out.println("Added session: " + webSocketSession.getId());
     }
 
